@@ -1,0 +1,115 @@
+---
+title: "Project"
+author: "Sravani"
+date: "18/11/2021"
+output: html_document
+---
+
+#Asteroids Potential Hazards Prediction
+
+This markdown file contains various data preparation and analysis techniques learned during the course to predict if an Asteroid is a potential hazard or not.
+
+
+#DATA
+
+First we start of by inputting the data we will be using for our prediction.
+The used used is from kaggle: https://www.kaggle.com/sakhawat18/asteroid-dataset
+
+#Features of the Data set
+
+1. SPK-ID: Object primary SPK-ID
+2. Object ID: Object internal database ID
+3. Object fullname: Object full name/designation
+4. pdes: Object primary designation
+5. name: Object IAU name
+6. NEO: Near-Earth Object (NEO) flag
+8. H: Absolute magnitude parameter
+9. Diameter: object diameter (from equivalent sphere) km Unit
+10. Albedo: Geometric albedo
+11. Diameter_sigma: 1-sigma uncertainty in object diameter km Unit
+12. Orbit_id: Orbit solution ID
+13. Epoch: Epoch of osculation in modified Julian day form
+14. Equinox: Equinox of reference frame
+15. e: Eccentricity
+16. a: Semi-major axis au Unit
+17. q: perihelion distance au Unit
+18. i: inclination; angle with respect to x-y ecliptic plane
+19. tp: Time of perihelion passage TDB Unit
+20. moid_ld: Earth Minimum Orbit Intersection Distance au Unit
+
+The above are the features of perticular asteroid given in the dataset.
+
+Our goal to predict: PHA: Potentially Hazardous Asteroid (PHA) flag
+
+
+#Libararies:
+
+```{r}
+library(readr)
+library(ggplot2)
+```
+
+##Data preprocessing:
+
+Inputting the dataset
+
+```{r}
+dataset <- read_csv("Desktop/DPA Project/dataset.csv")
+#View(dataset)
+#summary(dataset)
+df<-data.frame(dataset)
+summary(df)
+head(df)
+#View(df)
+```
+
+Finding if there are null values:
+
+```{r}
+colSums(is.na(df))
+```
+From above we can see that there are 'NA' values present in the dataset which need to be taken care of before we proceed to create our model.
+
+Since are dataset is big we will omit the values containing 'NA' instead of replacing them.
+
+```{r}
+drop <- c("id","prefix")
+ds<-na.omit(df)
+colSums(is.na(ds))
+View(ds)
+```
+
+#Data Cleaning
+
+From our dataset we remove the columns 'id' and 'columns' as they are not required and are redundant information for our model.
+
+```{r}
+
+ds <- ds[-c(1, 6)]
+colnames(ds) 
+View(ds)
+```
+
+```{r}
+df1<-na.omit(ds)
+#View(df1)
+```
+
+```{r}
+length(which(df$pha == "Y"))
+p<-ggplot(data=df, aes(x=pha, y=length(which(pha == "Y")))) + geom_bar(stat="identity")
+p
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
