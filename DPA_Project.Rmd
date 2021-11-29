@@ -1,6 +1,6 @@
 ---
 title: "Project"
-author: "Sravani"
+author: "Group"
 date: "18/11/2021"
 output: html_document
 ---
@@ -70,41 +70,35 @@ colSums(is.na(df))
 ```
 From above we can see that there are 'NA' values present in the dataset which need to be taken care of before we proceed to create our model.
 
-Since are dataset is big we will omit the values containing 'NA' instead of replacing them.
-
-```{r}
-drop <- c("id","prefix")
-ds<-na.omit(df)
-colSums(is.na(ds))
-View(ds)
-```
 
 #Data Cleaning
 
 From our dataset we remove the columns 'id' and 'columns' as they are not required and are redundant information for our model.
 
-```{r}
-
-ds <- ds[-c(1, 6)]
-colnames(ds) 
-View(ds)
-```
+Since are dataset is big we will omit the values containing 'NA' instead of replacing them.
 
 ```{r}
-df1<-na.omit(ds)
-#View(df1)
+ds <- df[-c(1, 6)]
+ds<-na.omit(ds)
+colSums(is.na(ds))
+#View(ds)
 ```
+
 
 ```{r}
 length(which(df$pha == "Y"))
-p<-ggplot(data=df, aes(x=pha, y=length(which(pha == "Y")))) + geom_bar(stat="identity")
+p<-ggplot(data=ds, aes(x=pha, y=length(which(pha == "Y")))) + geom_bar(stat="identity")
 p
 ```
+Adding to this we also drop id, spkid,  full_name, orbit_id, equinox as they are not necessary.
 
 
-
-
-
+```{r}
+colnames(ds)
+ds1 <- ds[-c(1:2, 11, 15)]
+print("after removing")
+colnames(ds1)
+```
 
 
 
